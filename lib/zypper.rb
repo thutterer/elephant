@@ -25,12 +25,18 @@ module Zypper
     output = []
     status = nil
     Open3.popen3("sudo zypper #{cmd}") do |stdin, stdout, stderr, wait_thr|
-      while line = stdout.gets
-        puts line
-        output.push line
+      out_line = ''
+      while char = stdout.getc
+        print char
+        unless char == "\n"
+          out_line += char
+        else
+          output.push out_line
+          out_line = ''
+        end
       end
-      while line = stderr.gets
-        puts line
+      while err_line = stderr.gets
+        puts err_line
       end
       status = wait_thr.value
     end
