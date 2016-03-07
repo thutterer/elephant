@@ -4,10 +4,14 @@ module Brain
 
   BRAIN = './brain.yml'
 
-  def Brain.learn(info)
-    brain = YAML.load_file(BRAIN) rescue Array.new
-    brain.push info
-    File.write(BRAIN, brain.to_yaml)
+  def self.learn(info)
+    memories = self.memories
+    memories.push info
+    File.write(BRAIN, memories.to_yaml)
+  end
+
+  def self.memories
+    YAML.load_file(BRAIN) rescue Array.new
   end
 
 end

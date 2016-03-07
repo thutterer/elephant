@@ -21,6 +21,12 @@ module Zypper
     end
   end
 
+  def Zypper.list
+    Brain.memories.each do |b|
+      puts b[:wanted]
+    end
+  end
+
   def Zypper.run(cmd)
     output = []
     status = nil
