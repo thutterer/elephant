@@ -4,14 +4,14 @@ module Brain
 
   BRAIN = './brain.yml'
 
-  def self.learn(info)
+  def self.learn(key, values)
     memories = self.memories
-    memories.push info
+    memories[key] = values
     File.write(BRAIN, memories.to_yaml)
   end
 
   def self.memories
-    YAML.load_file(BRAIN) rescue Array.new
+    YAML.load_file(BRAIN) rescue Hash.new
   end
 
 end

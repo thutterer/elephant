@@ -2,15 +2,14 @@ require 'open3'
 
 module Zypper
 
-  def Zypper.install(package)
+  def self.install(package)
     output, status = Zypper.run("install #{package}")
     return nil unless status.success?
     line = output.index { |l| l =~ /The following \d* ?NEW packages? (is|are) going to be installed:/}
     if line
       packages = output[line.next].split
-      Brain.learn(
+      Brain.learn(package,
         {
-          wanted: package,
           installed: packages,
           time: Time.now
         }
@@ -21,13 +20,13 @@ module Zypper
     end
   end
 
-  def Zypper.list
-    Brain.memories.each do |b|
-      puts b[:wanted]
+  def self.list
+    Brain.memories.keys.each do |package|
+      puts package
     end
   end
 
-  def Zypper.run(cmd)
+  def self.run(cmd)
     output = []
     status = nil
     Open3.popen3("sudo zypper #{cmd}") do |stdin, stdout, stderr, wait_thr|
