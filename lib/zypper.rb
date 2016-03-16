@@ -30,6 +30,13 @@ module Zypper
     self.run("remove #{Brain.memories[package][:packages].join(' ')}")
   end
 
+  def self.search(package)
+    self.run("search #{package}")
+    print 'install package: '
+    package = STDIN.gets.chomp
+    self.install(package) unless package.empty?
+  end
+
   def self.run(cmd)
     output = []
     status = nil

@@ -9,6 +9,8 @@ when 'list'
   Zypper.list
 when 'remove', 'rm'
   Zypper.remove ARGV[1]
+when 'search', 'se'
+  Zypper.search ARGV[1]
 else
   puts 'wrooong!'
 end
