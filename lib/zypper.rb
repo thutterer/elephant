@@ -10,7 +10,7 @@ module Zypper
       packages = output[line.next].split
       Brain.learn(package,
         {
-          installed: packages,
+          packages: packages,
           time: Time.now
         }
       )
@@ -24,6 +24,10 @@ module Zypper
     Brain.memories.keys.each do |package|
       puts package
     end
+  end
+
+  def self.remove(package)
+    self.run("remove #{Brain.memories[package][:packages].join(' ')}")
   end
 
   def self.run(cmd)
